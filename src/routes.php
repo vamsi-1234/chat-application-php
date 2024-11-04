@@ -273,9 +273,10 @@ $app->get('/messages', function (Request $request, Response $response) {
 $app->post('/move', function (Request $request, Response $response) {
     $db = $this->get('db');
     $data = json_decode($request->getBody()->getContents(), true);
+    
     $username = !empty($data['username']) ? $data['username'] : null;
-    $groupName1 = !empty($data['groupname1']) ? $data['username'] : null;
-    $groupName2 = !empty($data['groupname2']) ? $data['username'] : null;
+    $groupName1 = !empty($data['groupname1']) ? $data['groupname1'] : null;
+    $groupName2 = !empty($data['groupname2']) ? $data['groupname2'] : null;
 
     // Ensure groupName2 is provided
     if (!$groupName2) {
