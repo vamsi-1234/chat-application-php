@@ -79,7 +79,7 @@ Description: Sends a message to a group if the user belongs to that group.
 
 Request Example:
 
-**curl -X POST -d "{\\"username\\": \\"user1\\", \\"message\\": \\"Hello, GroupA!\\"}" -H "Content-Type: application/json" http://localhost:8080/messages**
+**curl -X POST -d "{\\"username\\": \\"user1\\", \\"message\\": \\"Hello, GroupA!\\"}" -H "Content-Type: application/json" http://localhost:8080/messages/send**
 
 
 4. Retrieve All Messages in a Specific Group
