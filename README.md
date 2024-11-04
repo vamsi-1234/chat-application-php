@@ -94,7 +94,7 @@ Request Example:
 
 **curl http://localhost:8080/messages**
 
-5. Move a user or group to another group
+6. Move a user or group to another group
 Endpoint: POST /save
 
 Description: Move a user or group to another group.
