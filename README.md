@@ -38,7 +38,7 @@ Request Example:
 
 With specific group:
 
-**curl -X POST -d "{\"username\": \"user1\", \"group_name\": \"GroupA\"}" -H "Content-Type: application/json" http://localhost:8080/users/group**
+**curl -X POST -d "{\\"username\\": \\"user1\\", \\"group_name\\": \\"GroupA\\"}" -H "Content-Type: application/json" http://localhost:8080/users/group**
 
 
 2. Retrieve All Groups and Users in Each Group
@@ -70,7 +70,7 @@ Description: Sends a message to a group if the user belongs to that group.
 
 Request Example:
 
-**curl -X POST -d "{\"username\": \"user1\", \"message\": \"Hello, GroupA!\"}" -H "Content-Type: application/json" http://localhost:8080/messages**
+**curl -X POST -d "{\\"username\\": \\"user1\\", \\"message\\": \\"Hello, GroupA!\\"}" -H "Content-Type: application/json" http://localhost:8080/messages**
 
 
 4. Retrieve All Messages in a Specific Group
