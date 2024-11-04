@@ -134,3 +134,6 @@ If groupname2 is missing, the endpoint should return an message indicating that 
 If the user is already in group_name2, it returns an error message to avoid unnecessary database operations.
 
 If the user is not in any group, an error is returned saying that the user isn’t in a group and cannot be moved.
+
+**For Testing you can use the above curl commands in cmd  or Do install {composer require --dev phpunit/phpunit} and run vendor/bin/phpunit**
+
