@@ -94,13 +94,28 @@ Request Example:
 
 **curl http://localhost:8080/messages**
 
+5. Move a user or group to another group
+Endpoint: POST /save
+
+Description: Move a user or group to another group.
+
+Request Example:
+
+**curl -X POST -d "{\\"username\\": \\"user1\\", \\"groupname2\\": \\"GroupB\\"}" -H "Content-Type: application/json" http://localhost:8080/move**
+**curl -X POST -d "{\\"groupname1\\": \\"GroupA\\", \\"groupname2\\": \\"GroupB\\"}" -H "Content-Type: application/json" http://localhost:8080/move**
 
 Error Handling and Edge Cases:
 
-If the username is not provided in the POST /users/group or POST /messages requests, the API will respond with a message.
+If the username is not provided in the POST /users/group or POST /messages/send requests, the API will respond with a message.
 
 If a message is not provided in POST /messages, the API will respond with a message.
 
 If the username does not exist when attempting to send a message, the API will return a message suggesting to create the user first.
 
+If both username and groupname1 are provided in the request, the endpoint should return an message indicating that only one of these should be specified.
 
+If groupname2 is missing, the endpoint should return an message indicating that groupname2 is mandatory.
+
+If the user is already in group_name2, it returns an error message to avoid unnecessary database operations.
+
+If the user is not in any group, an error is returned saying that the user isn’t in a group and cannot be moved.
