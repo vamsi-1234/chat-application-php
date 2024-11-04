@@ -12,7 +12,7 @@ composer -v
 
 Clone the repository
 Go to cloned folder Install dependencies using Composer:
-
+**composer require slim/slim slim/psr7 monolog/monolog php-di/php-di**
 **composer install**
 
 
