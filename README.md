@@ -13,6 +13,10 @@ composer -v
 Clone the repository
 Go to cloned folder Install dependencies using Composer:
 
+
+**composer require slim/slim slim/psr7 monolog/monolog php-di/php-di**
+
+
 **composer install**
 
 
@@ -79,7 +83,7 @@ Description: Sends a message to a group if the user belongs to that group.
 
 Request Example:
 
-**curl -X POST -d "{\\"username\\": \\"user1\\", \\"message\\": \\"Hello, GroupA!\\"}" -H "Content-Type: application/json" http://localhost:8080/messages**
+**curl -X POST -d "{\\"username\\": \\"user1\\", \\"message\\": \\"Hello, GroupA!\\"}" -H "Content-Type: application/json" http://localhost:8080/messages/send**
 
 
 4. Retrieve All Messages in a Specific Group
@@ -104,7 +108,9 @@ Request Example:
 **curl http://localhost:8080/messages**
 
 6. Move a user or group to another group
-Endpoint: POST /save
+
+
+Endpoint: POST /move
 
 Description: Move a user or group to another group.
 
