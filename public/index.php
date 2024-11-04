@@ -16,6 +16,8 @@ $app->addErrorMiddleware(true, true, true);
 
 // Load dependencies and routes
 require __DIR__ . '/../src/dependencies.php';
-require __DIR__ . '/../src/routes.php';
+require_once __DIR__ . '/../src/routes.php';
 
 $app->run();
+
+return $app;

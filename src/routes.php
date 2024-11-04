@@ -146,7 +146,15 @@ $app->post('/users/group', function (Request $request, Response $response) {
     $groupStmt->execute([':group_name' => $groupName]);
     $group = $groupStmt->fetch();
 
-    if (!$group) {
+    if ($group) {
+        // If the group exists but no username is provided, return a message
+        if (!$username) {
+            return jsonResponse1($response, [
+                "message" => "Group '$groupName' already exists."
+            ], 400);
+        }
+        $groupId = $group['id'];
+    } else {
         // Create group if it doesn't exist
         $createGroupStmt = $db->prepare("INSERT INTO chat_groups (name) VALUES (:group_name)");
         $createGroupStmt->execute([':group_name' => $groupName]);
