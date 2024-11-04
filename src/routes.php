@@ -11,14 +11,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @param int $status HTTP status code (default is 200).
  * @return Response The response with JSON data.
  */
-function jsonResponse1(Response $response, $data, $status = 200) {
+function jsonResponse(Response $response, $data, $status = 200) {
     $response->getBody()->write(json_encode($data));
     return $response->withHeader('Content-Type', 'application/json')->withStatus($status);
 }
 
 // Welcome route
 $app->get('/', function (Request $request, Response $response) {
-    return jsonResponse1($response, ['message' => 'Welcome to the chat app!']);
+    return jsonResponse($response, ['message' => 'Welcome to the chat app!']);
 });
 
 // Route to handle favicon requests with no content
@@ -33,7 +33,7 @@ $app->post('/messages/send', function (Request $request, Response $response) {
 
     // Validate input for required fields
     if (empty($data['username']) || empty($data['message'])) {
-        return jsonResponse1($response, ['error' => 'Username and message are required'], 400);
+        return jsonResponse($response, ['error' => 'Username and message are required'], 400);
     }
 
     $username = $data['username'];
@@ -45,7 +45,7 @@ $app->post('/messages/send', function (Request $request, Response $response) {
     $user = $userStmt->fetch();
 
     if (!$user) {
-        return jsonResponse1($response, ['error' => 'User does not exist, create a user first'], 404);
+        return jsonResponse($response, ['error' => 'User does not exist, create a user first'], 404);
     }
 
     // Check if the user belongs to any group
@@ -58,7 +58,7 @@ $app->post('/messages/send', function (Request $request, Response $response) {
     $group = $groupStmt->fetch();
 
     if (!$group) {
-        return jsonResponse1($response, ['error' => 'User is not in any group'], 400);
+        return jsonResponse($response, ['error' => 'User is not in any group'], 400);
     }
 
     // Insert the message into the user's group
@@ -72,7 +72,7 @@ $app->post('/messages/send', function (Request $request, Response $response) {
         ':message' => $message
     ]);
 
-    return jsonResponse1($response, ['message' => 'Message sent successfully']);
+    return jsonResponse($response, ['message' => 'Message sent successfully']);
 });
 
 // Route to retrieve messages for a specific group by group name
@@ -86,7 +86,7 @@ $app->get('/messages/group/{groupName}', function (Request $request, Response $r
     $group = $groupStmt->fetch();
 
     if (!$group) {
-        return jsonResponse1($response, ['error' => 'Group does not exist'], 404);
+        return jsonResponse($response, ['error' => 'Group does not exist'], 404);
     }
 
     // Fetch messages associated with the group
@@ -100,7 +100,7 @@ $app->get('/messages/group/{groupName}', function (Request $request, Response $r
     $messageStmt->execute([':group_id' => $group['id']]);
     $messages = $messageStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return jsonResponse1($response, $messages ?: ['message' => 'No messages found']);
+    return jsonResponse($response, $messages ?: ['message' => 'No messages found']);
 });
 
 // Route to list all available groups
@@ -109,7 +109,7 @@ $app->get('/groups', function (Request $request, Response $response) {
     $stmt = $db->query("SELECT name FROM chat_groups");
     $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return jsonResponse1($response, ['groups' => $groups]);
+    return jsonResponse($response, ['groups' => $groups]);
 });
 
 // Route to retrieve all users grouped by their respective groups
@@ -131,7 +131,7 @@ $app->get('/groups/users', function (Request $request, Response $response) {
         $groupedData[$row['group_name']][] = $row['username'];
     }
 
-    return jsonResponse1($response, $groupedData);
+    return jsonResponse($response, $groupedData);
 });
 
 // Route to create or add a user to a group
@@ -230,7 +230,7 @@ $app->get('/messages', function (Request $request, Response $response) {
     $stmt->execute();
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return jsonResponse1($response, $messages ?: ['message' => 'No messages found']);
+    return jsonResponse($response, $messages ?: ['message' => 'No messages found']);
 });
 $app->post('/move', function (Request $request, Response $response) {
     $db = $this->get('db');
@@ -242,12 +242,12 @@ $app->post('/move', function (Request $request, Response $response) {
 
     // Ensure groupName2 is provided
     if (!$groupName2) {
-        return jsonResponse1($response, ["error" => "Group name 2 is mandatory"], 400);
+        return jsonResponse($response, ["error" => "Group name 2 is mandatory"], 400);
     }
 
     // Check if both username and group_name1 are provided
     if ($username && $groupName1) {
-        return jsonResponse1($response, ["error" => "Please be specific. Specify either 'username' or 'group_name1', not both."], 400);
+        return jsonResponse($response, ["error" => "Please be specific. Specify either 'username' or 'group_name1', not both."], 400);
     }
 
     // Check if groupName2 exists
@@ -256,7 +256,7 @@ $app->post('/move', function (Request $request, Response $response) {
     $group2 = $groupStmt->fetch();
 
     if (!$group2) {
-        return jsonResponse1($response, ["error" => "Group '$groupName2' does not exist"], 404);
+        return jsonResponse($response, ["error" => "Group '$groupName2' does not exist"], 404);
     }
     $groupId2 = $group2['id'];
 
@@ -269,7 +269,7 @@ $app->post('/move', function (Request $request, Response $response) {
         $user = $userStmt->fetch();
 
         if (!$user) {
-            return jsonResponse1($response, ["error" => "User '$username' does not exist"], 404);
+            return jsonResponse($response, ["error" => "User '$username' does not exist"], 404);
         }
         $userId = $user['id'];
 
@@ -283,12 +283,12 @@ $app->post('/move', function (Request $request, Response $response) {
         $group1 = $userGroupStmt->fetch();
 
         if (!$group1) {
-            return jsonResponse1($response, ["error" => "User '$username' is not in any group"], 404);
+            return jsonResponse($response, ["error" => "User '$username' is not in any group"], 404);
         }
 
         // Prevent moving the user to the same group
         if ($group1['id'] == $groupId2) {
-            return jsonResponse1($response, ["error" => "User '$username' is already in group '$groupName2'"], 400);
+            return jsonResponse($response, ["error" => "User '$username' is already in group '$groupName2'"], 400);
         }
 
         // Move the user to groupName2
@@ -303,10 +303,10 @@ $app->post('/move', function (Request $request, Response $response) {
             $addUserToGroupStmt->execute([':user_id' => $userId, ':group_id' => $groupId2]);
 
             $db->commit();
-            return jsonResponse1($response, ["message" => "User '$username' moved from '{$group1['name']}' to '$groupName2'"]);
+            return jsonResponse($response, ["message" => "User '$username' moved from '{$group1['name']}' to '$groupName2'"]);
         } catch (Exception $e) {
             $db->rollBack();
-            return jsonResponse1($response, ["error" => "Failed to move user: " . $e->getMessage()], 500);
+            return jsonResponse($response, ["error" => "Failed to move user: " . $e->getMessage()], 500);
         }
 
     } elseif ($groupName1) {
@@ -317,7 +317,7 @@ $app->post('/move', function (Request $request, Response $response) {
         $group1 = $groupStmt->fetch();
 
         if (!$group1) {
-            return jsonResponse1($response, ["error" => "Group '$groupName1' does not exist"], 404);
+            return jsonResponse($response, ["error" => "Group '$groupName1' does not exist"], 404);
         }
         $groupId1 = $group1['id'];
 
@@ -327,7 +327,7 @@ $app->post('/move', function (Request $request, Response $response) {
         $userCount = $userCountStmt->fetchColumn();
 
         if ($userCount == 0) {
-            return jsonResponse1($response, ["error" => "No users are present in '$groupName1', cannot move"], 400);
+            return jsonResponse($response, ["error" => "No users are present in '$groupName1', cannot move"], 400);
         }
 
         // Move all users to groupName2
@@ -342,14 +342,14 @@ $app->post('/move', function (Request $request, Response $response) {
             $deleteGroupStmt->execute([':group_id1' => $groupId1]);
 
             $db->commit();
-            return jsonResponse1($response, ["message" => "All users moved from '$groupName1' to '$groupName2', and '$groupName1' has been deleted"]);
+            return jsonResponse($response, ["message" => "All users moved from '$groupName1' to '$groupName2', and '$groupName1' has been deleted"]);
         } catch (Exception $e) {
             $db->rollBack();
-            return jsonResponse1($response, ["error" => "Failed to move users: " . $e->getMessage()], 500);
+            return jsonResponse($response, ["error" => "Failed to move users: " . $e->getMessage()], 500);
         }
 
     } else {
-        return jsonResponse1($response, ["error" => "Either 'username' or 'group_name1' must be provided"], 400);
+        return jsonResponse($response, ["error" => "Either 'username' or 'group_name1' must be provided"], 400);
     }
 });
 
