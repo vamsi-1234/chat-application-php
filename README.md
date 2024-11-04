@@ -1,7 +1,16 @@
 # chat-application-php
 
+## Prerequisites
+Before setting up and running the application, ensure that you have the following installed:
 
+- **PHP** used version is 8.3.13
+- **Composer** (dependency manager for PHP) used version is 2.8.2
 
+You can verify the installations by running the following commands:
+php -v
+composer -v
+
+Clone the repository
 Go to cloned folder Install dependencies using Composer:
 
 **composer install**
