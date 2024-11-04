@@ -34,7 +34,7 @@ Description: Adds a user to a specified group. If the group name is omitted, the
 
 Request Example:
 
-**curl -X POST -d "{\"username\": \"user1\"}" -H "Content-Type: application/json" http://localhost:8080/users/group**
+**curl -X POST -d "{\\"username\\": \\"user1\\"}" -H "Content-Type: application/json" http://localhost:8080/users/group**
 
 With specific group:
 
