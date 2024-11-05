@@ -117,6 +117,8 @@ Description: Move a user or group to another group.
 Request Example:
 
 **curl -X POST -d "{\\"username\\": \\"user1\\", \\"groupname2\\": \\"GroupB\\"}" -H "Content-Type: application/json" http://localhost:8080/move**
+
+
 **curl -X POST -d "{\\"groupname1\\": \\"GroupA\\", \\"groupname2\\": \\"GroupB\\"}" -H "Content-Type: application/json" http://localhost:8080/move**
 
 Error Handling and Edge Cases:
